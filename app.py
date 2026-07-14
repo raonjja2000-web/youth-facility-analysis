@@ -306,12 +306,16 @@ st.markdown(
     }
 
     .block-container {
-        max-width: 1080px;
+        max-width: 1260px;
         width: 100%;
-        padding-left: 0.4rem;
-        padding-right: 0.4rem;
-        padding-top: 0;
+        padding-left: 0.25rem;
+        padding-right: 0.25rem;
+        padding-top: 0 !important;
         padding-bottom: 0.1rem;
+    }
+
+    [data-testid="stAppViewContainer"] .main .block-container {
+        padding-top: 0 !important;
     }
 
     .chart-title {
@@ -324,6 +328,7 @@ st.markdown(
     .report-head {
         border-bottom: 2px solid #0D0D0D;
         padding: 0 0 3px 0;
+        margin-top: -34px;
         margin-bottom: 2px;
         position: relative;
     }
@@ -334,6 +339,7 @@ st.markdown(
         font-size: 2rem;
         font-weight: 850;
         line-height: 1.05;
+        transform: translateY(6px);
     }
 
     .report-head p {
@@ -346,7 +352,7 @@ st.markdown(
     .top-source-note {
         position: absolute;
         right: 0;
-        top: 0;
+        top: -10px;
         color: #333333;
         font-size: 0.58rem;
     }
@@ -373,8 +379,8 @@ st.markdown(
 
     .input-label {
         color: #0D0D0D;
-        font-size: 1.1rem;
-        font-weight: 700;
+        font-size: 1rem;
+        font-weight: 850;
         margin-top: 0;
         margin-bottom: 2px;
         line-height: 1.1;
@@ -405,31 +411,110 @@ st.markdown(
     }
 
     .right-result-title {
-        color: #0D0D0D;
+        color: #73030D;
         font-weight: 850;
-        font-size: 1.05rem;
-        margin: 0 0 6px 0;
+        font-size: 0.92rem;
+        margin: 3px 0 3px 0;
+        line-height: 1.05;
+    }
+
+    .right-result-title.good {
+        color: #167358;
+    }
+
+    .right-result-title.mid {
+        color: #2C3840;
+    }
+
+    .right-result-title.bad {
+        color: #73030D;
     }
 
     .right-result-card {
-        background: #ffd8ad;
-        border-radius: 8px;
-        padding: 11px 12px;
-        margin-bottom: 10px;
+        background: #ffd3a3;
+        border: 1px solid #F2AE72;
+        border-left: 8px solid #A60321;
+        border-radius: 6px;
+        padding: 6px 10px 6px 11px;
+        margin-bottom: 4px;
+        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.32);
+    }
+
+    .right-result-card.good {
+        background: #dfeee8;
+        border-color: #8cbfaa;
+        border-left-color: #167358;
+    }
+
+    .right-result-card.mid {
+        background: #eceff1;
+        border-color: #b7c0c8;
+        border-left-color: #2C3840;
+    }
+
+    .right-result-card.bad {
+        background: #ffd3a3;
+        border-color: #F2AE72;
+        border-left-color: #A60321;
     }
 
     .right-main {
         color: #0D0D0D;
-        font-size: 1.1rem;
+        font-size: 0.9rem;
         font-weight: 800;
-        margin-bottom: 2px;
+        margin-bottom: 1px;
+        line-height: 1.15;
     }
 
     .right-warning {
         color: #d92121;
-        font-size: 0.82rem;
+        font-size: 0.7rem;
         font-weight: 800;
-        margin-bottom: 5px;
+        margin-bottom: 0;
+        line-height: 1.15;
+    }
+
+    .right-result-card.good .right-warning {
+        color: #167358;
+    }
+
+    .right-result-card.mid .right-warning {
+        color: #2C3840;
+    }
+
+    .right-result-card.bad .right-warning {
+        color: #d92121;
+    }
+
+    .top-result-title {
+        color: #0D0D0D;
+        font-size: 1rem;
+        font-weight: 850;
+        margin: 0 0 2px 0;
+        line-height: 1.1;
+    }
+
+    .top-result-card {
+        background: #ffd8ad;
+        border-radius: 6px;
+        min-height: 44px;
+        padding: 8px 10px;
+    }
+
+    .top-result-main {
+        color: #0D0D0D;
+        font-size: 0.9rem;
+        font-weight: 850;
+        line-height: 1.2;
+        white-space: nowrap;
+    }
+
+    .top-result-warning {
+        color: #d92121;
+        font-size: 0.72rem;
+        font-weight: 850;
+        line-height: 1.2;
+        margin-top: 2px;
     }
 
     .trend-panel-title {
@@ -441,6 +526,12 @@ st.markdown(
 
     .column-divider {
         height: 590px;
+        border-left: 2px solid #111111;
+        margin: 0 auto;
+    }
+
+    .top-column-divider {
+        height: 72px;
         border-left: 2px solid #111111;
         margin: 0 auto;
     }
@@ -543,6 +634,7 @@ st.markdown(
 
 FONT_CANDIDATES = [
     Path("/usr/share/fonts/truetype/nanum/NanumGothic.ttf"),
+    Path("/System/Library/Fonts/Supplemental/AppleGothic.ttf"),
     Path("/Library/Fonts/AppleGothic.ttf"),
 ]
 
@@ -731,7 +823,7 @@ def show_facility_type_chart(region, type_df):
     values = row.iloc[0][FACILITY_TYPE_COLUMNS].astype(int)
     x_limit = max(100, int(type_df[FACILITY_TYPE_COLUMNS].max().max() * 1.12))
 
-    fig, ax = plt.subplots(figsize=(3.35, 1.75))
+    fig, ax = plt.subplots(figsize=(3.6, 2.15))
     fig.patch.set_facecolor("#ffffff")
     ax.set_facecolor("#ffffff")
     short_labels = ["수련관", "문화의집", "수련원", "야영장", "유스호스텔", "특화시설"]
@@ -767,7 +859,7 @@ def show_facility_type_chart(region, type_df):
             color="#0D0D0D",
         )
 
-    fig.subplots_adjust(left=0.23, right=0.94, top=0.76, bottom=0.2)
+    fig.subplots_adjust(left=0.22, right=0.95, top=0.82, bottom=0.16)
     st.pyplot(fig, use_container_width=True)
 
 
@@ -785,7 +877,7 @@ def show_sigungu_facility_type_chart(sido, sigungu, sigungu_facility_df):
     values = row.iloc[0][FACILITY_TYPE_COLUMNS].astype(int)
     x_limit = max(10, int(sigungu_facility_df[FACILITY_TYPE_COLUMNS].max().max() * 1.2))
 
-    fig, ax = plt.subplots(figsize=(3.35, 1.75))
+    fig, ax = plt.subplots(figsize=(3.6, 2.15))
     fig.patch.set_facecolor("#ffffff")
     ax.set_facecolor("#ffffff")
     short_labels = ["수련관", "문화의집", "수련원", "야영장", "유스호스텔", "특화시설"]
@@ -819,7 +911,7 @@ def show_sigungu_facility_type_chart(sido, sigungu, sigungu_facility_df):
             color="#0D0D0D",
         )
 
-    fig.subplots_adjust(left=0.23, right=0.94, top=0.76, bottom=0.2)
+    fig.subplots_adjust(left=0.22, right=0.95, top=0.82, bottom=0.16)
     st.pyplot(fig, use_container_width=True)
 
 
@@ -835,7 +927,7 @@ def show_region_facility_trend(region, trend_df, large=False):
     max_facilities = trend_df["시설수"].max()
     y_limit = max(200, int(max_facilities * 1.12))
 
-    fig_size = (3.35, 1.9) if large else (2.7, 1.1)
+    fig_size = (3.6, 2.25) if large else (2.7, 1.1)
     title_size = 8 if large else 7.2
     label_size = 6.5 if large else 7
     tick_size = 6.5 if large else 7
@@ -873,7 +965,7 @@ def show_region_facility_trend(region, trend_df, large=False):
     for year, value in zip(region_df["연도"].astype(str), region_df["시설수"]):
         ax.text(year, value, f"{int(value)}", ha="center", va="bottom", fontsize=6 if large else 5.8, color="#0D0D0D")
 
-    fig.subplots_adjust(left=0.13, right=0.97, top=0.78, bottom=0.18)
+    fig.subplots_adjust(left=0.13, right=0.97, top=0.82, bottom=0.15)
     st.pyplot(fig, use_container_width=True)
 
 
@@ -902,7 +994,7 @@ def show_sigungu_ratio_trend(sido, sigungu, facility_count, sigungu_pop_df, sigu
     region_df = region_df.copy()
     region_df["인구10만명당시설수"] = facility_count / region_df["청소년인구"] * 100000
 
-    fig, ax = plt.subplots(figsize=(3.35, 1.9))
+    fig, ax = plt.subplots(figsize=(3.6, 2.25))
     fig.patch.set_facecolor("#ffffff")
     ax.set_facecolor("#ffffff")
     ax.plot(
@@ -933,7 +1025,7 @@ def show_sigungu_ratio_trend(sido, sigungu, facility_count, sigungu_pop_df, sigu
     for year, value in zip(region_df["연도"].astype(str), region_df["인구10만명당시설수"]):
         ax.text(year, value, f"{value:.1f}", ha="center", va="bottom", fontsize=6, color="#0D0D0D")
 
-    fig.subplots_adjust(left=0.13, right=0.97, top=0.78, bottom=0.18)
+    fig.subplots_adjust(left=0.13, right=0.97, top=0.82, bottom=0.15)
     st.pyplot(fig, use_container_width=True)
 
 
@@ -1007,11 +1099,14 @@ st.markdown(
 graph_col, divider_col, right_col = st.columns([2.0, 0.035, 1.05], gap="small")
 
 with graph_col:
-    input_region, input_sigungu, input_facility, input_youth = st.columns([0.86, 0.86, 0.58, 0.72], gap="medium")
+    input_region, input_sigungu, input_facility, input_youth = st.columns(
+        [0.88, 0.88, 0.6, 0.74],
+        gap="small",
+    )
 
-    with input_region:
-        st.markdown('<div class="input-label">지역</div>', unsafe_allow_html=True)
-        selected_region = st.selectbox("지역", REGIONS, index=REGIONS.index("경기"), label_visibility="collapsed")
+with input_region:
+    st.markdown('<div class="input-label">지역</div>', unsafe_allow_html=True)
+    selected_region = st.selectbox("지역", REGIONS, index=REGIONS.index("경기"), label_visibility="collapsed")
 
 default_row = df_ml[df_ml["지역"] == selected_region].iloc[0]
 
@@ -1021,39 +1116,37 @@ if sigungu_pop_df is not None:
 
 selected_sigungu = None
 if sigungu_options:
-    with graph_col:
-        with input_sigungu:
-            st.markdown('<div class="input-label">시군구</div>', unsafe_allow_html=True)
-            selected_sigungu_value = st.selectbox("시군구", sigungu_options, label_visibility="collapsed")
-            selected_sigungu = None if selected_sigungu_value == "전체" else selected_sigungu_value
+    with input_sigungu:
+        st.markdown('<div class="input-label">시군구</div>', unsafe_allow_html=True)
+        selected_sigungu_value = st.selectbox("시군구", sigungu_options, label_visibility="collapsed")
+        selected_sigungu = None if selected_sigungu_value == "전체" else selected_sigungu_value
 
-with graph_col:
-    with input_facility:
-        st.markdown('<div class="input-label">시설 수</div>', unsafe_allow_html=True)
-        if selected_sigungu and sigungu_facility_df is not None:
-            facility_row = sigungu_facility_df[
-                (sigungu_facility_df["시도"] == selected_region)
-                & (sigungu_facility_df["시군구"] == selected_sigungu)
-            ]
-            facility_count = int(facility_row.iloc[0]["총계"]) if not facility_row.empty else 0
-        else:
-            facility_count = int(default_row["시설수"])
-        st.markdown(f'<div class="readonly-value">{facility_count}</div>', unsafe_allow_html=True)
+with input_facility:
+    st.markdown('<div class="input-label">시설 수</div>', unsafe_allow_html=True)
+    if selected_sigungu and sigungu_facility_df is not None:
+        facility_row = sigungu_facility_df[
+            (sigungu_facility_df["시도"] == selected_region)
+            & (sigungu_facility_df["시군구"] == selected_sigungu)
+        ]
+        facility_count = int(facility_row.iloc[0]["총계"]) if not facility_row.empty else 0
+    else:
+        facility_count = int(default_row["시설수"])
+    st.markdown(f'<div class="readonly-value">{facility_count}</div>', unsafe_allow_html=True)
 
-    with input_youth:
-        st.markdown('<div class="input-label">청소년 인구(만 명)</div>', unsafe_allow_html=True)
-        if selected_sigungu and sigungu_pop_df is not None:
-            youth_row = sigungu_pop_df[
-                (sigungu_pop_df["시도"] == selected_region)
-                & (sigungu_pop_df["시군구"] == selected_sigungu)
-                & (sigungu_pop_df["연도"] == 2024)
-            ]
-            youth_count = float(youth_row.iloc[0]["청소년인구"]) / 10000 if not youth_row.empty else 0.0
-            youth_display = f"{youth_count:.1f}"
-        else:
-            youth_count = float(default_row["청소년인구(만명)"])
-            youth_display = f"{int(youth_count)}"
-        st.markdown(f'<div class="readonly-value">{youth_display}</div>', unsafe_allow_html=True)
+with input_youth:
+    st.markdown('<div class="input-label">청소년 인구(만 명)</div>', unsafe_allow_html=True)
+    if selected_sigungu and sigungu_pop_df is not None:
+        youth_row = sigungu_pop_df[
+            (sigungu_pop_df["시도"] == selected_region)
+            & (sigungu_pop_df["시군구"] == selected_sigungu)
+            & (sigungu_pop_df["연도"] == 2024)
+        ]
+        youth_count = float(youth_row.iloc[0]["청소년인구"]) / 10000 if not youth_row.empty else 0.0
+        youth_display = f"{youth_count:.1f}"
+    else:
+        youth_count = float(default_row["청소년인구(만명)"])
+        youth_display = f"{int(youth_count)}"
+    st.markdown(f'<div class="readonly-value">{youth_display}</div>', unsafe_allow_html=True)
 
 ratio_value = facility_count / youth_count * 10 if youth_count else 0
 input_data = pd.DataFrame(
@@ -1083,8 +1176,8 @@ with graph_col:
     show_cluster_chart(df_ml)
     st.markdown(
         f"""
-        <div class="right-result-title">{selected_label} {result_type}</div>
-        <div class="right-result-card">
+        <div class="right-result-title {result_class}">{selected_label} {result_type}</div>
+        <div class="right-result-card {result_class}">
             <div class="right-main">시설 {facility_count}개 * 10만 명당 {ratio_value:.2f}</div>
             <div class="right-warning">{message}</div>
         </div>
