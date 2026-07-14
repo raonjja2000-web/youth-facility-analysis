@@ -81,6 +81,17 @@ st.markdown(
         color: #1f2933 !important;
     }
 
+    div[data-baseweb="select"]:hover > div,
+    div[data-baseweb="select"]:focus > div,
+    div[data-baseweb="select"]:focus-within > div,
+    div[data-baseweb="select"] > div:hover,
+    div[data-baseweb="select"] > div:focus,
+    div[data-baseweb="select"] > div:focus-within {
+        border-color: #d7d7d7 !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
     div[data-baseweb="select"] span,
     div[data-baseweb="input"] input {
         color: #1f2933 !important;
