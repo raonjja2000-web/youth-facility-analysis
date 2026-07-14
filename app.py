@@ -26,6 +26,28 @@ st.markdown(
         font-family: 'Gmarket Sans', 'GmarketSans', 'Apple SD Gothic Neo', 'AppleGothic', sans-serif !important;
     }
 
+    .stApp *:hover,
+    .stApp *:focus,
+    .stApp *:focus-visible,
+    .stApp *:active {
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+    .stApp button:hover,
+    .stApp button:focus,
+    .stApp button:focus-visible,
+    .stApp [role="button"]:hover,
+    .stApp [role="button"]:focus,
+    .stApp [data-baseweb="select"]:hover,
+    .stApp [data-baseweb="select"]:focus-within,
+    .stApp [data-testid="stImage"]:hover,
+    .stApp [data-testid="stFullScreenFrame"]:hover {
+        outline: none !important;
+        box-shadow: none !important;
+        border-color: inherit !important;
+    }
+
     h1, h2, h3 {
         letter-spacing: 0;
         color: #2C3840;
