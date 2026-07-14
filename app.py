@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import matplotlib
+from matplotlib import font_manager
 import matplotlib.pyplot as plt
 import pandas as pd
 import streamlit as st
@@ -540,7 +541,19 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-matplotlib.rcParams["font.family"] = "AppleGothic"
+FONT_CANDIDATES = [
+    Path("/usr/share/fonts/truetype/nanum/NanumGothic.ttf"),
+    Path("/Library/Fonts/AppleGothic.ttf"),
+]
+
+for font_path in FONT_CANDIDATES:
+    if font_path.exists():
+        font_manager.fontManager.addfont(str(font_path))
+        matplotlib.rcParams["font.family"] = font_manager.FontProperties(fname=str(font_path)).get_name()
+        break
+else:
+    matplotlib.rcParams["font.family"] = "DejaVu Sans"
+
 matplotlib.rcParams["axes.unicode_minus"] = False
 
 
