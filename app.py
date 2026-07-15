@@ -361,7 +361,7 @@ st.markdown(
     .report-head {
         border-bottom: 2px solid #0D0D0D;
         padding: 0 0 3px 0;
-        margin-top: -34px;
+        margin-top: -22px;
         margin-bottom: 2px;
         position: relative;
     }
